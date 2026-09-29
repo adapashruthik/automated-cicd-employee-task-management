@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TaskFlow | Employee Management</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+                <div class="brand-logo">T</div>
+
+                <div>
+                    <h2>TaskFlow</h2>
+                    <span>Management System</span>
+                </div>
+            </div>
+
+            <nav>
+
+                <a href="#" class="nav-item active">
+                    <span>▣</span>
+                    Dashboard
+                </a>
+
+                <a href="#employees" class="nav-item">
+                    <span>◉</span>
+                    Employees
+                </a>
+
+                <a href="#tasks" class="nav-item">
+                    <span>✓</span>
+                    Tasks
+                </a>
+
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="system-status">
+                    <span class="status-dot"></span>
+
+                    <div>
+                        <strong>System Online</strong>
+                        <small>All services operational</small>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+
+        <main class="main">
+
+            <!-- TOP BAR -->
+
+            <header class="topbar">
+
+                <div>
+                    <p class="welcome">Welcome back 👋</p>
+
+                    <h1>Dashboard</h1>
+                </div>
+
+                <div class="topbar-right">
+
+                    <div class="server-status">
+                        <span class="status-dot"></span>
+                        API Connected
+                    </div>
+
+                    <div class="avatar">
+                        AS
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- ================= DASHBOARD CARDS ================= -->
+
+            <section class="stats">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon employees-icon">
+                        👥
+                    </div>
+
+                    <div>
+                        <span>Total Employees</span>
+                        <h2 id="totalEmployees">0</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon tasks-icon">
+                        📋
+                    </div>
+
+                    <div>
+                        <span>Total Tasks</span>
+                        <h2 id="totalTasks">0</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon pending-icon">
+                        ⏳
+                    </div>
+
+                    <div>
+                        <span>Pending Tasks</span>
+                        <h2 id="pendingTasks">0</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon completed-icon">
+                        ✓
+                    </div>
+
+                    <div>
+                        <span>Completed Tasks</span>
+                        <h2 id="completedTasks">0</h2>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= EMPLOYEES ================= -->
+
+            <section class="content-card" id="employees">
+
+                <div class="section-header">
+
+                    <div>
+                        <span class="section-label">TEAM</span>
+                        <h2>Employees</h2>
+                        <p>Manage your organization's employees</p>
+                    </div>
+
+                    <button
+                        class="primary-btn"
+                        onclick="showEmployeeForm()">
+
+                        + Add Employee
+
+                    </button>
+
+                </div>
+
+
+                <!-- EMPLOYEE FORM -->
+
+                <div
+                    id="employeeForm"
+                    class="form-container"
+                    style="display: none;">
+
+                    <div class="form-header">
+                        <h3>Add New Employee</h3>
+
+                        <button
+                            class="close-btn"
+                            onclick="hideEmployeeForm()">
+
+                            ×
+
+                        </button>
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="input-group">
+
+                            <label>Name</label>
+
+                            <input
+                                type="text"
+                                id="employeeName"
+                                placeholder="Enter employee name">
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>Email</label>
+
+                            <input
+                                type="email"
+                                id="employeeEmail"
+                                placeholder="employee@example.com">
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>Department</label>
+
+                            <input
+                                type="text"
+                                id="employeeDepartment"
+                                placeholder="e.g. Engineering">
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>Role</label>
+
+                            <input
+                                type="text"
+                                id="employeeRole"
+                                placeholder="e.g. Software Engineer">
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-actions">
+
+                        <button
+                            class="secondary-btn"
+                            onclick="hideEmployeeForm()">
+
+                            Cancel
+
+                        </button>
+
+                        <button
+                            class="primary-btn"
+                            onclick="addEmployee()">
+
+                            Save Employee
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMPLOYEE LIST -->
+
+                <div id="employeeList" class="data-list">
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            👥
+                        </div>
+
+                        <h3>Loading employees...</h3>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= TASKS ================= -->
+
+            <section class="content-card" id="tasks">
+
+                <div class="section-header">
+
+                    <div>
+                        <span class="section-label">WORK MANAGEMENT</span>
+
+                        <h2>Tasks</h2>
+
+                        <p>Create and track employee tasks</p>
+                    </div>
+
+                    <button
+                        class="primary-btn"
+                        onclick="showTaskForm()">
+
+                        + Create Task
+
+                    </button>
+
+                </div>
+
+
+                <!-- TASK FORM -->
+
+                <div
+                    id="taskForm"
+                    class="form-container"
+                    style="display: none;">
+
+                    <div class="form-header">
+
+                        <h3>Create New Task</h3>
+
+                        <button
+                            class="close-btn"
+                            onclick="hideTaskForm()">
+
+                            ×
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+                        <div class="input-group full-width">
+
+                            <label>Task Title</label>
+
+                            <input
+                                type="text"
+                                id="taskTitle"
+                                placeholder="Enter task title">
+
+                        </div>
+
+
+                        <div class="input-group full-width">
+
+                            <label>Description</label>
+
+                            <textarea
+                                id="taskDescription"
+                                placeholder="Describe the task..."></textarea>
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>Assign Employee</label>
+
+                            <select id="taskEmployee">
+
+                                <option value="">
+                                    Select employee
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>Priority</label>
+
+                            <select id="taskPriority">
+
+                                <option value="Low">
+                                    Low
+                                </option>
+
+                                <option
+                                    value="Medium"
+                                    selected>
+
+                                    Medium
+
+                                </option>
+
+                                <option value="High">
+                                    High
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>Status</label>
+
+                            <select id="taskStatus">
+
+                                <option value="Pending">
+                                    Pending
+                                </option>
+
+                                <option value="In Progress">
+                                    In Progress
+                                </option>
+
+                                <option value="Completed">
+                                    Completed
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>Due Date</label>
+
+                            <input
+                                type="date"
+                                id="taskDueDate">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <button
+                            class="secondary-btn"
+                            onclick="hideTaskForm()">
+
+                            Cancel
+
+                        </button>
+
+                        <button
+                            class="primary-btn"
+                            onclick="addTask()">
+
+                            Create Task
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TASK LIST -->
+
+                <div id="taskList" class="task-list">
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            📋
+                        </div>
+
+                        <h3>Loading tasks...</h3>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- FOOTER -->
+
+            <footer>
+
+                <span>
+                    TaskFlow Employee Management System
+                </span>
+
+                <span>
+                    REST API • Node.js • MySQL
+                </span>
+
+            </footer>
+
+        </main>
+
+    </div>
+
+
+    <!-- JavaScript -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
