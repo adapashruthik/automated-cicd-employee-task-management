@@ -7,9 +7,6 @@ const pool = mysql.createPool({
     database: process.env.DB_NAME,
     port: Number(process.env.DB_PORT) || 3306,
 
-    // Force IPv4 connection to Aiven
-    family: 4,
-
     ssl: process.env.DB_SSL === "true"
         ? { rejectUnauthorized: false }
         : undefined,
@@ -17,8 +14,6 @@ const pool = mysql.createPool({
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
-
-    // Give the connection enough time
     connectTimeout: 20000
 });
 
