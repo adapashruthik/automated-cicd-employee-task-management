@@ -126,3 +126,33 @@ Displays:
               ┌────────┴────────┐
               │                 │
           Employees          Tasks
+
+
+---
+
+# 🔄 CI/CD Pipeline
+
+The project uses GitHub Actions to automate the Docker image build and publishing process.
+
+### Pipeline Flow
+
+```text
+Developer pushes code
+        ↓
+GitHub Repository
+        ↓
+GitHub Actions triggered
+        ↓
+Checkout source code
+        ↓
+Setup Docker Buildx
+        ↓
+Login to Docker Hub
+        ↓
+Build Docker image
+        ↓
+Push image to Docker Hub
+        ↓
+Deploy latest image to Render
+        ↓
+Production application
