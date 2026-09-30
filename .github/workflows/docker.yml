@@ -34,3 +34,7 @@ jobs:
           tags: |
             shruthik12/employee-task-app:latest
             shruthik12/employee-task-app:${{ github.sha }}
+
+            
+      - name: Trigger Render deployment
+        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
