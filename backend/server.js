@@ -1,56 +1,42 @@
-require("dotenv").config();
+const net = require("net");
 
-const express = require("express");
-const cors = require("cors");
-const path = require("path");
+app.get("/api/network-test", (req, res) => {
+    const socket = new net.Socket();
 
+    socket.setTimeout(10000);
 
-const db = require("./config/db");
-const employeeRoutes = require("./routes/employeeRoutes");
-const taskRoutes = require("./routes/taskRoutes");
-
-const app = express();
-
-const PORT = process.env.PORT || 5000;
-
-app.use(cors());
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "../frontend")));
-
-
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend/index.html"));
-});
-
-app.get("/api/health", (req, res) => {
-    res.json({
-        status: "UP",
-        message: "Backend is healthy"
-    });
-});
-
-app.get("/api/db-test", async (req, res) => {
-    try {
-        const [rows] = await db.query("SELECT 1 AS result");
+    socket.on("connect", () => {
+        socket.destroy();
 
         res.json({
             status: "success",
-            database: "MySQL connected",
-            result: rows[0].result
+            message: "Render can reach Aiven MySQL",
+            host: process.env.DB_HOST,
+            port: process.env.DB_PORT
         });
+    });
 
-    } catch (error) {
-        console.error("Database connection error:", error);
+    socket.on("timeout", () => {
+        socket.destroy();
 
         res.status(500).json({
             status: "error",
-            message: "Database connection failed"
+            message: "Connection timed out"
         });
-    }
-});
-app.use("/api/employees", employeeRoutes);
-app.use("/api/tasks", taskRoutes);
+    });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    socket.on("error", (error) => {
+        socket.destroy();
+
+        res.status(500).json({
+            status: "error",
+            message: "Network connection failed",
+            code: error.code
+        });
+    });
+
+    socket.connect(
+        Number(process.env.DB_PORT),
+        process.env.DB_HOST
+    );
 });
