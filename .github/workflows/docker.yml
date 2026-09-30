@@ -31,4 +31,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: shruthik12/employee-task-app:latest
+          tags: |
+            shruthik12/employee-task-app:latest
+            shruthik12/employee-task-app:${{ github.sha }}
