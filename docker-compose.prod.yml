@@ -1,0 +1,26 @@
+services:
+
+  app:
+    image: shruthik12/employee-task-app:latest
+    container_name: employee-task-app
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./.env
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    container_name: employee-task-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
