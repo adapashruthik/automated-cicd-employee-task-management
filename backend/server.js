@@ -51,6 +51,10 @@ app.get("/api/db-test", async (req, res) => {
 app.use("/api/employees", employeeRoutes);
 app.use("/api/tasks", taskRoutes);
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+module.exports = app;
